@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    {% if book_searched %}
+        <h3>You searched for "{{ book_searched }}"</h3>
+        <ul>
+            {% for book in result %}
+            <li>{{ book.get_authors }} - {{ book.title }}</li>
+            {% endfor %}
+        </ul>
+        {% for book in result %}
+
+        {% endfor %}
+    {% else %}
+        <h3>Seems like you forgot to search :)</h3>
+    {% endif %}
+</body>
+</html>
