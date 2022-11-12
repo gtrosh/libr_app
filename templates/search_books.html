@@ -11,14 +11,17 @@
 
     {% if book_searched %}
         <h3>You searched for "{{ book_searched }}"</h3>
+        {% if result %}
         <ul>
             {% for book in result %}
             <li>{{ book.get_authors }} - {{ book.title }}</li>
             {% endfor %}
         </ul>
-        {% for book in result %}
-
-        {% endfor %}
+        <p>Not the book you were looking for? You can add a new book to the library <a href="{% url 'add-book' %}">here</a></p>
+        {% else %}
+            <p>Your search did not return any results.</p>
+            <p>You can add the book to the library <a href="{% url 'add-book' %}">here</a></p>
+        {% endif %}
     {% else %}
         <h3>Seems like you forgot to search :)</h3>
     {% endif %}

@@ -25,7 +25,7 @@
     <div>
         <form method="POST" action="{% url 'search-books' %}">
             {% csrf_token %}
-            <input type="search" placeholder="Search for a Book" aria-label="Search" name="book_searched">
+            <input type="search" placeholder="Search for a Book by Title or Author" aria-label="Search" name="book_searched">
             <button type="submit">Search</button>
           </form>
     </div>

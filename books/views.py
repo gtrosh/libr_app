@@ -35,7 +35,7 @@ def get_author(request):
             middle_name = data['middle_name']
             author, _ = Author.objects.get_or_create(last_name=last_name, first_name=first_name, middle_name=middle_name)
             messages.add_message(request, messages.SUCCESS, 'The author added successfully')
-            return redirect('/')
+            return redirect('/add_book/')
     
     form = AuthorForm()
     return render(request, 'add_author.html', {'form': form})
