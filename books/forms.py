@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Author, Book, Note
+from .models import Author, Book, Collection, Note
 
 
 class AuthorForm(forms.Form):
@@ -13,3 +13,9 @@ class BookForm(ModelForm):
     class Meta:
         model = Book
         fields = ['authors', 'title']
+
+
+class CollectionForm(ModelForm):
+    class Meta:
+        model = Collection
+        fields = ['books']

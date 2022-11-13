@@ -50,7 +50,7 @@ class Note(models.Model):
 
 class Collection(models.Model):
     books = models.ManyToManyField(Book)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def get_books(self):
         return ', '.join([b.title for b in self.books.all()])

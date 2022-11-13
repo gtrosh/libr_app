@@ -7,4 +7,5 @@ urlpatterns = [
     path('search_books/', views.search_books, name='search-books'),
     path('add_author/', views.get_author, name='add-author'),
     path('add_book/', views.get_book, name='add-book'),
+    path('add_collection/', views.add_to_collection, name='add-collection'),
 ]
