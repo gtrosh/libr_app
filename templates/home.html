@@ -23,6 +23,16 @@
     </div>
     
     <div>
+        {% if user.is_authenticated %}
+            <p>Hi {{ user.username }}!</p>
+            <p><a href="{% url 'logout' %}">Log Out</a></p>
+        {% else %}
+            <p>You are not logged in</p>
+            <p><a href="{% url 'login' %}">Log In</a></p>
+        {% endif %}
+    </div>
+    
+    <div>
         <form method="POST" action="{% url 'search-books' %}">
             {% csrf_token %}
             <input type="search" placeholder="Search for a Book by Title or Author" aria-label="Search" name="book_searched">
