@@ -1,72 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library</title>
-</head>
-<body>
-    <h1>Home Page - Library</h1>
-    
-    <div>
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-                {{ message }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-    
-    <div>
-        {% if user.is_authenticated %}
-            <p>Hi {{ user.username }}!</p>
-            <p><a href="{% url 'logout' %}">Log Out</a></p>
-        {% else %}
-            <p>You are not logged in</p>
-            <p><a href="{% url 'login' %}">Log In</a></p>
-        {% endif %}
-    </div>
-    
-    <div>
-        <form method="POST" action="{% url 'search-books' %}">
-            {% csrf_token %}
-            <input type="search" placeholder="Search for a Book by Title or Author" aria-label="Search" name="book_searched">
-            <button type="submit">Search</button>
-          </form>
-    </div>
+{% extends "base.html" %}
+{% block title %}Home Page {% endblock %}
 
-    <div class="container">
-        <ul>
+
+    <div class="container-fluid">
+        {% block content %}
+        <br>
+        <h1>Home Page</h1>
+        <br>
+        <div>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div>
+            <form class="container-fluid" method="POST" action="{% url 'search-books' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input class="form-control" type="search" placeholder="Search for a Book by Title or Author" aria-label="Search" name="book_searched">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+        <br>
+        <div>
+            <ul>
+                
+                {% for book in books %}
+                <li>{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a></li>
+                {% endfor %}
+                
+            </ul>
             
-            {% for book in books %}
-            <li>{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a></li>
-            {% endfor %}
-            
-        </ul>
+        </div>
+    
         
-    </div>
-
+        <br>
+        <hr>
     
-    <br>
-    <hr>
-
-    <div>
-        {% if books.has_previous %}
-            <a href="?page=1">&laquo; First | </a>
-            <a href="?page={{ books.previous_page_number }}">Previous |</a>
-        {% endif %}
-
-        Page {{ books.number }} of {{ books.paginator.num_pages }}
-
-        {% if books.has_next %}
-            <a href="?page={{ books.next_page_number }}"> | Next</a>
-            <a href="?page={{ books.paginator.num_pages }}"> | Last &raquo;</a>
-        {% endif %}
+        <div>
+            {% if books.has_previous %}
+                <a href="?page=1">&laquo; First | </a>
+                <a href="?page={{ books.previous_page_number }}">Previous |</a>
+            {% endif %}
+    
+            Page {{ books.number }} of {{ books.paginator.num_pages }}
+    
+            {% if books.has_next %}
+                <a href="?page={{ books.next_page_number }}"> | Next</a>
+                <a href="?page={{ books.paginator.num_pages }}"> | Last &raquo;</a>
+            {% endif %}
+        </div>
+        {% endblock content %}
     </div>
-</body>
-</html>
