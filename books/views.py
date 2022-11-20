@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
-from .forms import AuthorForm, BookForm, CollectionForm, CreationForm
+from .forms import AuthorForm, BookForm, CollectionForm, CreationForm, NoteForm
 from .models import Author, Book, Note, Collection 
 
 
@@ -99,6 +99,42 @@ def add_to_collection(request):
                         return redirect('/')         
     form = CollectionForm()
     return render(request, 'add_collection.html', {'form': form})
+
+
+@login_required
+def add_note(request):
+    if request.method == 'POST':
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            book_note = data['book']
+            
+            user_collection = Collection.objects.filter(owner=request.user)
+            collected_books = user_collection.iterator()
+
+            for el in collected_books:
+                books_titles = el.books.values('title')
+                titles = []
+                for item in books_titles:
+                    titles.append(item['title'])
+
+                if str(book_note) in titles:
+                    note = form.save(commit=False)
+                    note.user = request.user
+                    note.heading = data['heading']
+                    note.text = data['text']
+                    note.save()
+
+                    book_name = Book.objects.filter(title=book_note)
+                    note.book = book_name[0]
+                    messages.add_message(request, messages.SUCCESS, 'Note has been added')
+                    return redirect('/')
+                else:
+                    messages.add_message(request, messages.INFO, 'Please add the book to your collection first')
+                    return redirect('/add_collection')
+                      
+    form = NoteForm()
+    return render(request, 'add_note.html', {'form': form})
 
 
 class SignUpView(CreateView):

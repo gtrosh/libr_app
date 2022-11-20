@@ -27,4 +27,10 @@ class CollectionForm(ModelForm):
 class CreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "username", "email")
+        fields = ['first_name', 'last_name', 'username', 'email']
+
+
+class NoteForm(ModelForm):
+    class Meta:
+        model = Note
+        fields = ('book', 'heading', 'text')

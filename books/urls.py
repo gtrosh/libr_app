@@ -9,4 +9,5 @@ urlpatterns = [
     path('add_book/', views.get_book, name='add-book'),
     path('add_collection/', views.add_to_collection, name='add-collection'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('add_note/', views.add_note, name='add-note'),
 ]
