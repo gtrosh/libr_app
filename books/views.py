@@ -4,8 +4,10 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
-from .forms import AuthorForm, BookForm, CollectionForm
+from .forms import AuthorForm, BookForm, CollectionForm, CreationForm
 from .models import Author, Book, Note, Collection 
 
 
@@ -97,3 +99,9 @@ def add_to_collection(request):
                         return redirect('/')         
     form = CollectionForm()
     return render(request, 'add_collection.html', {'form': form})
+
+
+class SignUpView(CreateView):
+    form_class = CreationForm
+    success_url = reverse_lazy('home')
+    template_name = "signup.html"
