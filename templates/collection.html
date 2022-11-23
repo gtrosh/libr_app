@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Add Author{% endblock %}
+
+{% block content %}
+<br>
+<h1>{{ user.username}}'s collection</h1>
+
+<div>
+    {% if books %}
+        <ul>
+            {% for item in books %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+        
+    {% endif %}
+</div>
+{% endblock content %}

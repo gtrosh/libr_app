@@ -102,6 +102,27 @@ def add_to_collection(request):
 
 
 @login_required
+def get_collection(request):
+    collection = Collection.objects.filter(owner=request.user)
+    collection_iterator = collection.iterator()
+    for element in collection_iterator:
+        books_objs = element.books.all()
+        books = []
+        for el in books_objs:
+            authors = el.authors.all().values('last_name')
+            book_authors = []
+            for i in range(len(authors)):
+                author = authors[i]['last_name']
+                book_authors.append(author)
+            author_last_name = ', '.join(book_authors)
+            book_title = el.title
+            data = (author_last_name, book_title)
+            str_data = ' - '.join(data)
+            books.append(str_data)
+    return render(request, 'collection.html', {'books': books})
+
+
+@login_required
 def add_note(request):
     if request.method == 'POST':
         form = NoteForm(request.POST)
