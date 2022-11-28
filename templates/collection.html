@@ -7,12 +7,13 @@
 
 <div>
     {% if books %}
-        <ul>
-            {% for item in books %}
-            <li>{{ item }}</li>
-            {% endfor %}
-        </ul>
-        
+    <ul>
+        {% for book in books %}
+        {% for key, value in book.items %}
+            <li>{{ value }} - <a href="{% url 'book' key %}">Notes</a></li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
     {% endif %}
 </div>
 {% endblock content %}

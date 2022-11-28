@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
@@ -118,8 +118,10 @@ def get_collection(request):
             book_title = el.title
             data = (author_last_name, book_title)
             str_data = ' - '.join(data)
-            books.append(str_data)
-    return render(request, 'collection.html', {'books': books})
+            data = {}
+            data[el.id] = str_data
+            books.append(data)
+    return render(request, 'collection.html', {'books': books, 'data': data})
 
 
 @login_required
@@ -162,3 +164,17 @@ class SignUpView(CreateView):
     form_class = CreationForm
     success_url = reverse_lazy('home')
     template_name = "signup.html"
+
+
+def book_view(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    notes = Note.objects.filter(book=book)
+    
+    context = {'book': book, 'notes': notes}
+    return render(request, 'book.html', context)
+
+
+def note_view(request, note_id):
+    note = get_object_or_404(Note, id=note_id)
+    context = {'note': note}
+    return render(request, 'note.html', context)
