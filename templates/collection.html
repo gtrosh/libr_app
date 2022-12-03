@@ -6,9 +6,9 @@
 <h1>{{ user.username}}'s collection</h1>
 
 <div>
-    {% if books %}
+    {% if result %}
     <ul>
-        {% for book in books %}
+        {% for book in result %}
         {% for key, value in book.items %}
             <li>{{ value }} - <a href="{% url 'book' key %}">Notes</a></li>
         {% endfor %}

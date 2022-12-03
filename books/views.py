@@ -11,6 +11,7 @@ from .forms import AuthorForm, BookForm, CollectionForm, CreationForm, NoteForm
 from .models import Author, Book, Note, Collection 
 
 
+@login_required
 def home(request):
     book_list = Book.objects.all()
     paginator = Paginator(book_list, 10, orphans=3, allow_empty_first_page=True)
@@ -102,27 +103,25 @@ def add_to_collection(request):
 
 
 @login_required
-def get_collection(request):
-    collection = Collection.objects.filter(owner=request.user)
-    collection_iterator = collection.iterator()
-    for element in collection_iterator:
-        books_objs = element.books.all()
-        books = []
-        for el in books_objs:
-            authors = el.authors.all().values('last_name')
-            book_authors = []
-            for i in range(len(authors)):
-                author = authors[i]['last_name']
-                book_authors.append(author)
-            author_last_name = ', '.join(book_authors)
-            book_title = el.title
-            data = (author_last_name, book_title)
-            str_data = ' - '.join(data)
-            data = {}
-            data[el.id] = str_data
-            books.append(data)
-    return render(request, 'collection.html', {'books': books, 'data': data})
-
+def get_collection(request, username):
+    user_collection = get_object_or_404(Collection, owner__username=username)
+    collection_owner = user_collection.owner
+    books = user_collection.books
+    result = []
+    for book in books.all():
+        title = book.title
+        authors = []
+        author_queryset = book.authors.all().values_list('last_name', flat=True)
+        for el in author_queryset:
+            authors.append(el)
+        author_list = ', '.join(authors)
+        data = (author_list, title)
+        str_data = ' - '.join(data)
+        data_dict = {}
+        data_dict[book.id] = str_data
+        result.append(data_dict)
+    return render(request, 'collection.html', {'collection': user_collection, 'owner': collection_owner, 'result': result, 'data_dict': data_dict})
+    
 
 @login_required
 def add_note(request):
@@ -166,15 +165,17 @@ class SignUpView(CreateView):
     template_name = "signup.html"
 
 
+@login_required
 def book_view(request, book_id):
     book = get_object_or_404(Book, id=book_id)
-    notes = Note.objects.filter(book=book)
+    notes = Note.objects.filter(book=book, user=request.user)
     
     context = {'book': book, 'notes': notes}
     return render(request, 'book.html', context)
 
 
+@login_required
 def note_view(request, note_id):
-    note = get_object_or_404(Note, id=note_id)
+    note = get_object_or_404(Note, id=note_id, user=request.user)
     context = {'note': note}
     return render(request, 'note.html', context)
