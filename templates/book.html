@@ -2,13 +2,15 @@
 {% block title %}{{book.title}}{% endblock %}
 
 {% block content %}
-
+<br>
 <h1>{{book.title}}</h1>
 <ul>
 {% for note in notes %}
     <li>{{ note.added|date}} <br><a href="{% url 'note' note.id %}">{{ note.heading }}</a> - {{ note.text }} </li>
 {% empty %}
-    <li>No notes yet.</li>
+    <li>No notes yet. You can add one <a href="{% url 'add-note' %}">here</a></li>
 {% endfor %}
 </ul>
-{% endblock content %}
+
+<p>Add <a href="{% url 'add-note' %}">new note</a></p>
+{% endblock content %}href="{% url 'user-collection' %}
