@@ -31,10 +31,20 @@
         <br>
         <div>
             <ul>
+                {% if user.is_authenticated %}
+                    {% for book in books %}
+                        {% if book.title not in user_books %}
+                            <li>{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a></li>
+                        {% else %}
+                            <li>{{ book.get_authors }} - {{ book.title }}</li>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% for book in books %}
+                        <li>{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a></li>
+                    {% endfor %}
+                {% endif %}
                 
-                {% for book in books %}
-                <li>{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a></li>
-                {% endfor %}
                 
             </ul>
             

@@ -11,13 +11,23 @@ from .forms import AuthorForm, BookForm, CollectionForm, CreationForm, NoteForm
 from .models import Author, Book, Note, Collection 
 
 
-@login_required
 def home(request):
     book_list = Book.objects.all()
+    user_books = []
+    if request.user.is_authenticated:
+        collection = get_object_or_404(Collection, owner=request.user)
+        user_books = collection.books.values_list('title', flat=True)        
+    
     paginator = Paginator(book_list, 10, orphans=3, allow_empty_first_page=True)
     page = request.GET.get('page')
     books = paginator.get_page(page)
-    return render(request, 'home.html', {'books': books})
+    context = {
+        'paginator': paginator,
+        'page': page,
+        'books': books,
+        'user_books': user_books
+    }
+    return render(request, 'home.html', context)
 
 
 def search_books(request):
