@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView
 
 from .forms import AuthorForm, BookForm, CollectionForm, CreationForm, NoteForm
@@ -160,7 +160,7 @@ def add_note(request):
                     book_name = Book.objects.filter(title=book_note)
                     note.book = book_name[0]
                     messages.add_message(request, messages.SUCCESS, 'Note has been added')
-                    return redirect('/')
+                    return redirect('book', note.book.id)
                 else:
                     messages.add_message(request, messages.INFO, 'Please add the book to your collection first')
                     return redirect('/add_collection')
@@ -179,6 +179,20 @@ def edit_note(request, username, note_id):
         form.save()
         return redirect('note', note_id)
     return render(request, 'add_note.html', {'note': note, 'form': form})
+
+
+@login_required
+def delete_note(request, note_id):
+    note = get_object_or_404(Note, user__username=request.user, id=note_id)
+    book = get_object_or_404(Book, id=note.book.id)
+    
+    if request.user != note.user:
+        messages.add_message(request, messages.INFO, 'Looks like this note is not yours')
+        return redirect('note', note_id)
+    
+    if note:    
+        note.delete()
+    return redirect('book', book.id)
 
 
 class SignUpView(CreateView):
