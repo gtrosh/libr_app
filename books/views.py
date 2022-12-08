@@ -169,6 +169,18 @@ def add_note(request):
     return render(request, 'add_note.html', {'form': form})
 
 
+@login_required
+def edit_note(request, username, note_id):
+    note = get_object_or_404(Note, user__username=username, id=note_id)
+    if request.user != note.user:
+        return redirect('note', note_id)
+    form = NoteForm(request.POST or None, instance=note)
+    if form.is_valid():
+        form.save()
+        return redirect('note', note_id)
+    return render(request, 'add_note.html', {'note': note, 'form': form})
+
+
 class SignUpView(CreateView):
     form_class = CreationForm
     success_url = reverse_lazy('home')
