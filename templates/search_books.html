@@ -10,7 +10,7 @@
         {% if result %}
         <ul>
             {% for book in result %}
-            <li>{{ book.get_authors }} - {{ book.title }}</li>
+            <li>{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a> </li>
             {% endfor %}
         </ul>
         <p>Not the book you were looking for? You can add a new book to the library <a href="{% url 'add-book' %}">here</a></p>

@@ -19,29 +19,29 @@
             </ul>
             {% endif %}
         </div>
-        <div>
-            <form class="container-fluid" method="POST" action="{% url 'search-books' %}">
+        <div class="card text-bg-success mb-3">
+            <form class="card-body" method="POST" action="{% url 'search-books' %}">
                 {% csrf_token %}
                 <div class="input-group">
                     <input class="form-control" type="search" placeholder="Search for a Book by Title or Author" aria-label="Search" name="book_searched">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="btn btn-outline-light" type="submit">Search</button>
                 </div>
             </form>
         </div>
         <br>
-        <div>
-            <ul>
+        <div class="card">
+            <ul class="list-group list-group-flush">
                 {% if user.is_authenticated %}
                     {% for book in books %}
                         {% if book.title not in user_books %}
-                            <li>{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a></li>
+                            <li class="list-group-item">{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a></li>
                         {% else %}
-                            <li>{{ book.get_authors }} - {{ book.title }}</li>
+                            <li class="list-group-item">{{ book.get_authors }} - {{ book.title }}</li>
                         {% endif %}
                     {% endfor %}
                 {% else %}
                     {% for book in books %}
-                        <li>{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a></li>
+                        <li class="list-group-item">{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a></li>
                     {% endfor %}
                 {% endif %}
                 
@@ -52,20 +52,27 @@
     
         
         <br>
-        <hr>
-    
-        <div>
-            {% if books.has_previous %}
-                <a href="?page=1">&laquo; First | </a>
-                <a href="?page={{ books.previous_page_number }}">Previous |</a>
+        
+        <nav aria-label="...">
+            <ul class="pagination">
+                {% if books.has_previous %}
+                <li class="page-item"><a href="?page=1" class="page-link">1</a></li>
+              <li class="page-item">
+                <a href="?page={{ books.previous_page_number }}" class="page-link">Previous</a>
+              </li>
+              {% endif %}
+                <a class="page-link" href="?page={{ books.number }}">{{ books.number }}</a>
+              </li>
+              {% if books.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ books.next_page_number }}">Next</a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ books.paginator.num_pages }}">Last</a>
+            </li>
             {% endif %}
-    
-            Page {{ books.number }} of {{ books.paginator.num_pages }}
-    
-            {% if books.has_next %}
-                <a href="?page={{ books.next_page_number }}"> | Next</a>
-                <a href="?page={{ books.paginator.num_pages }}"> | Last &raquo;</a>
-            {% endif %}
-        </div>
+            </ul>
+          </nav>        
         {% endblock content %}
     </div>

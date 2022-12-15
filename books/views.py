@@ -18,7 +18,7 @@ def home(request):
         collection = get_object_or_404(Collection, owner=request.user)
         user_books = collection.books.values_list('title', flat=True)        
     
-    paginator = Paginator(book_list, 10, orphans=3, allow_empty_first_page=True)
+    paginator = Paginator(book_list, 15, orphans=3, allow_empty_first_page=True)
     page = request.GET.get('page')
     books = paginator.get_page(page)
     context = {
