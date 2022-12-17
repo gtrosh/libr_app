@@ -17,11 +17,20 @@ class BookForm(ModelForm):
         model = Book
         fields = ['authors', 'title']
 
+        widgets = {
+            'authors': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control'})
+        }
+
 
 class CollectionForm(ModelForm):
     class Meta:
         model = Collection
         fields = ['books']
+
+        widgets = {
+            'books': forms.SelectMultiple(attrs={'class': 'form-control'})
+        }
 
 
 class CreationForm(UserCreationForm):

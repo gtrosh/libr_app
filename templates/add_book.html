@@ -3,8 +3,8 @@
 
 {% block content %}
 <br>
-<h1>Add New Book</h1>
-
+<h1 class="text-success">Add New Book</h1>
+<br>
 <div>
     {% if messages %}
     <ul class="messages">
@@ -18,15 +18,16 @@
     {% endif %}
 </div>
 
-<div>
+<p>To select several authors, press Ctrl when clicking on each author's name.</p>
+
+<div class="col-md-3">
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Submit">
+        <button type="submit" class="btn btn-success">Add Book</button>
     </form>
 </div>
 <div>
-    <p>To select several authors, press Ctrl when clicking on each author's name.</p>
     <br>
     <p>Author not available from the list?</p>
     <p>Add the author <a href="{% url 'add-author' %}">here</a></p>
