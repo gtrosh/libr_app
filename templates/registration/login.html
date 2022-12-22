@@ -3,12 +3,24 @@
 
 {% block content %}
 <br>
-<h2>Log In</h2>
-<form method="post">
+<h2 class="text-success">Welcome!</h2>
+<br>
+<form class="row w-25 g-3" method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
+  <!-- {{ form.as_p }} -->
+  <div class="form-group">
+    <input type="text" class="form-control" name="username" placeholder="Username">
+  </div>
+
+  <div class="form-group">
+    <input type="password" class="form-control" name="password" placeholder="Password">
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-success">Log In</button>
+</div>
+  </form>
+
+  
 <br>
 <p>No account yet? Please sign up <a href="{% url 'signup' %}">here</a></p>
 {% endblock content %}

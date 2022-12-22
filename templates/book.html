@@ -17,13 +17,30 @@
     {% endif %}
 </div>
 <br>
-<ul>
-{% for note in notes %}
-    <li>{{ note.added|date}} <br><a href="{% url 'note' note.id %}">{{ note.heading }}</a> - {{ note.text }} | <a href="{% url 'note_edit' note.user.username note.id %}">Edit</a> | <a href="{% url 'note_delete' note.id %}">Delete</a></li>
-{% empty %}
-    <li>No notes yet. You can add one <a href="{% url 'add-note' %}">here</a></li>
-{% endfor %}
-</ul>
+<div>
 
-<p>Add <a href="{% url 'add-note' %}">new note</a></p>
+</div>
+{% if notes%}
+<div class="card col-md-6">
+    
+        <ul class="list-group list-group-flush">
+            {% for note in notes %}
+                <li class="list-group-item">{{ note.added|date}} <br><a href="{% url 'note' note.id %}">{{ note.heading }}</a> - {{ note.text }} | <a href="{% url 'note_edit' note.user.username note.id %}">Edit</a> | <a href="{% url 'note_delete' note.id %}">Delete</a></li>
+            {% endfor %}
+        </ul>
+</div>
+{% endif %}
+
+<br>
+
+<div class="col-12">
+    <a class="btn btn-success" role="button" href="{% url 'add-note' %}">New note</a>
+</div>
+
+
+    
+
+
+
+
 {% endblock content %}href="{% url 'user-collection' %}
