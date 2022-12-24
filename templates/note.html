@@ -2,11 +2,25 @@
 {% block title %}{{ note.book.title }}{% endblock %}
 
 {% block content %}
-
-<h1>{{note.book.title}}</h1>
-<h2>{{note.heading}}</h2>
-<div>
-    {{ note.text}}
+<br>
+<h1 class="text-success">{{note.book.title}}</h1>
+<br>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-header">
+                {{note.heading}}
+            </div>
+            <div class="card-body">
+                {{ note.text}}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="col-12">
+    <a class="btn btn-success" role="button" href="{% url 'note_edit' note.user.username note.id %}">Edit</a>
+    <a class="btn btn-success" role="button" href="{% url 'book' note.book.id %}">Go Back</a>
 </div>
 
 {% endblock content %}

@@ -40,7 +40,7 @@ class Note(models.Model):
     added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.added} - {self.heading}'
+        return f'{self.heading}'
 
     class Meta:
         ordering = ["-added", "book"]

@@ -3,21 +3,9 @@
 
 {% block content %}
 <br>
-<h1>{{book.title}}</h1>
-<div>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-            {{ message }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-</div>
+<h1 class="text-success">{{book.title}}</h1>
+
 <br>
-<div>
 
 </div>
 {% if notes%}
@@ -25,7 +13,7 @@
     
         <ul class="list-group list-group-flush">
             {% for note in notes %}
-                <li class="list-group-item">{{ note.added|date}} <br><a href="{% url 'note' note.id %}">{{ note.heading }}</a> - {{ note.text }} | <a href="{% url 'note_edit' note.user.username note.id %}">Edit</a> | <a href="{% url 'note_delete' note.id %}">Delete</a></li>
+                <li class="list-group-item">{{ note.added|date}} <br><a href="{% url 'note' note.id %}">{{ note.heading }}</a> - {{ note.text|truncatechars:80 }} | <a href="{% url 'note_edit' note.user.username note.id %}">Edit</a> | <a href="{% url 'note_delete' note.id %}">Delete</a></li>
             {% endfor %}
         </ul>
 </div>
