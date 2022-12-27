@@ -6,9 +6,9 @@
 <h1 class="text-success">Add New Note</h1>
 
 <div>
-    <form class="row g-3" action="" method="post">
+    <form class="row g-6" action="" method="post">
         {% csrf_token %}
-        <div class="col-md-3">{{ form.as_p }}</div>
+        <div class="col-md-6">{{ form.as_p }}</div>
         <div class="col-12">
             <button type="submit" class="btn btn-success">Submit</button>
         </div>
