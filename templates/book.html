@@ -7,28 +7,23 @@
 
 <br>
 
-</div>
-{% if notes%}
-<div class="card col-md-6">
+
+    {% if notes%}
+    <div class="card col-md-6">
+        
+            <ul class="list-group list-group-flush">
+                {% for note in notes %}
+                    <li class="list-group-item">{{ note.added|date}} <br><a href="{% url 'note' note.id %}">{{ note.heading }}</a> - {{ note.text|truncatechars:80 }} | <a href="{% url 'note_text' note.user.username note.id %}">Download</a> | <a href="{% url 'note_edit' note.user.username note.id %}">Edit</a> | <a href="{% url 'note_delete' note.id %}">Delete</a></li>
+                {% endfor %}
+            </ul>
+    </div>
+    {% endif %}
     
-        <ul class="list-group list-group-flush">
-            {% for note in notes %}
-                <li class="list-group-item">{{ note.added|date}} <br><a href="{% url 'note' note.id %}">{{ note.heading }}</a> - {{ note.text|truncatechars:80 }} | <a href="{% url 'note_edit' note.user.username note.id %}">Edit</a> | <a href="{% url 'note_delete' note.id %}">Delete</a></li>
-            {% endfor %}
-        </ul>
-</div>
-{% endif %}
-
-<br>
-
-<div class="col-12">
-    <a class="btn btn-success" role="button" href="{% url 'add-note' %}">New note</a>
-</div>
-
-
+    <br>
     
+    <div class="col-12">
+        <a class="btn btn-success" role="button" href="{% url 'add-note' %}">New note</a>
+    </div>
 
 
-
-
-{% endblock content %}href="{% url 'user-collection' %}
+{% endblock content %}

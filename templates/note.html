@@ -20,6 +20,7 @@
 <br>
 <div class="col-12">
     <a class="btn btn-success" role="button" href="{% url 'note_edit' note.user.username note.id %}">Edit</a>
+    <a class="btn btn-success" role="button" href="{% url 'note_text' note.user.username note.id %}">Download Note</a>
     <a class="btn btn-success" role="button" href="{% url 'book' note.book.id %}">Go Back</a>
 </div>
 

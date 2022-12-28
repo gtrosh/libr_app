@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView
@@ -193,6 +193,16 @@ def delete_note(request, note_id):
     if note:    
         note.delete()
     return redirect('book', book.id)
+
+
+def note_text(request, username, note_id):
+    response = HttpResponse(content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=note.txt'
+    note = get_object_or_404(Note, user__username=username, id=note_id)
+    
+    text = '\n'.join([note.book.title, note.heading, note.text])
+    response.write(text)
+    return response
 
 
 class SignUpView(CreateView):

@@ -15,5 +15,6 @@ urlpatterns = [
     path('collection/notes/<int:note_id>/', views.note_view, name='note'),
     path('collection/books/<int:book_id>/', views.book_view, name='book'),
     path('collection/notes/<str:username>/<int:note_id>/edit/', views.edit_note, name='note_edit'),
+    path('note_text/<str:username>/<int:note_id>', views.note_text, name='note_text'),
 ]
 
