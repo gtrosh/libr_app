@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Add to Collection{% endblock %}
+
+{% block content %}
+<br>
+<h1 class="text-success">Add Book from Library to Your Collection</h1>
+<br>
+
+<div>
+    <p>Select a book from the list below to add it to your collection.</p>
+    
+</div>
+
+    <form class="row g-3" action="" method="post">
+        {% csrf_token %}
+        <div class="col-md-3">
+            {{ form.as_p }}
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-success">Add Book</button>
+        </div>
+    </form>
+
+{% endblock content %}

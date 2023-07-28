@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Add Author{% endblock %}
+
+{% block content %}
+<br>
+<h1 class="text-success">Add New Author</h1>
+
+
+    <form class="row g-3" action="" method="post">
+        {% csrf_token %}
+        <div class="col-md-3">
+            {{ form.as_p }}
+        </div>
+        
+        <div class="col-12">
+            <button type="submit" class="btn btn-success">Add Author</button>
+        </div>
+    </form>
+
+{% endblock content %}
+

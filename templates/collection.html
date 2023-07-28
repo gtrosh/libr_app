@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Add Author{% endblock %}
+
+{% block content %}
+<br>
+<h1 class="text-success">{{ user.username}}'s collection</h1>
+<br>
+<div class="card">
+    {% if result %}
+    <ul class="list-group list-group-flush">
+        {% for book in result %}
+        {% for key, value in book.items %}
+            <li class="list-group-item">{{ value }} - <a href="{% url 'book' key %}">Notes</a></li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endblock content %}

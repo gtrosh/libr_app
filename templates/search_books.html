@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<br>
+<h1 class="text-success">Here is what we found...</h1>
+<br>
+    {% if book_searched %}
+        <h4>You searched for "{{ book_searched }}"</h4>
+        <br>
+        {% if result %}
+        <ul>
+            {% for book in result %}
+            <li>{{ book.get_authors }} - {{ book.title }} - <a href="{% url 'add-collection' %}">Add to My Collection</a> </li>
+            {% endfor %}
+        </ul>
+        <p>Not the book you were looking for? You can add a new book to the library <a href="{% url 'add-book' %}">here</a></p>
+        {% else %}
+            <p>Your search did not return any results.</p>
+            
+            <p>If you could not find an author, then you may want to add the author <a href="{% url 'add-author' %}">here</a></p>
+            <p>Searched book not listed among the author's books? Add it <a href="{% url 'add-book' %}">here</a></p>
+        {% endif %}
+    {% else %}
+        <h3>Seems like you forgot to search :)</h3>
+    {% endif %}
+{% endblock content %}
+    

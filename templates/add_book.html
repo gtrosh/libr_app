@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+<br>
+<h1 class="text-success">Add New Book</h1>
+<br>
+
+<p>To select several authors, press Ctrl when clicking on each author's name.</p>
+
+<div class="col-md-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Add Book</button>
+    </form>
+</div>
+<div>
+    <br>
+    <p>Author not available from the list?</p>
+    <p>Add the author <a href="{% url 'add-author' %}">here</a></p>
+</div>
+{% endblock content %}
