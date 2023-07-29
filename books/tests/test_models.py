@@ -11,20 +11,18 @@ class AuthorModelTest(TestCase):
             first_name="Иван", middle_name="Сидорович", last_name="Петров"
         )
 
-    def test_first_name_label(self):
+    def test_verbose_name(self):
         author = AuthorModelTest.author
-        verbose = author._meta.get_field("first_name").verbose_name
-        self.assertEqual(verbose, "First name")
-
-    def test_middle_name_label(self):
-        author = AuthorModelTest.author
-        verbose = author._meta.get_field("middle_name").verbose_name
-        self.assertEqual(verbose, "Middle name")
-
-    def test_last_name_label(self):
-        author = AuthorModelTest.author
-        verbose = author._meta.get_field("last_name").verbose_name
-        self.assertEqual(verbose, "Last name")
+        field_verboses = {
+            "first_name": "First name",
+            "middle_name": "Middle name",
+            "last_name": "Last name",
+        }
+        for field, expected_value in field_verboses.items():
+            with self.subTest(field=field):
+                self.assertEqual(
+                    author._meta.get_field(field).verbose_name, expected_value
+                )
 
     def test_object_name_is_first_and_last_name(self):
         author = AuthorModelTest.author
@@ -45,15 +43,14 @@ class BookModelTest(TestCase):
         cls.book = Book.objects.create(title="Тестовая книга")
         cls.book.authors.set([cls.author1, cls.author2])
 
-    def test_title_label(self):
+    def test_verbose_name(self):
         book = BookModelTest.book
-        verbose = book._meta.get_field("title").verbose_name
-        self.assertEqual(verbose, "Title")
-
-    def test_authors_label(self):
-        book = BookModelTest.book
-        verbose = book._meta.get_field("authors").verbose_name
-        self.assertEqual(verbose, "Author")
+        field_verboses = {"title": "Title", "authors": "Author"}
+        for field, expected_value in field_verboses.items():
+            with self.subTest(field=field):
+                self.assertEqual(
+                    book._meta.get_field(field).verbose_name, expected_value
+                )
 
     def test_object_name_is_title(self):
         book = BookModelTest.book
@@ -83,20 +80,14 @@ class NoteModelTest(TestCase):
             text="Текст заметки",
         )
 
-    def test_heading_label(self):
+    def test_verbose_name(self):
         note = NoteModelTest.note
-        verbose = note._meta.get_field("heading").verbose_name
-        self.assertEqual(verbose, "Heading")
-
-    def test_text_label(self):
-        note = NoteModelTest.note
-        verbose = note._meta.get_field("text").verbose_name
-        self.assertEqual(verbose, "Text")
-
-    def test_added_label(self):
-        note = NoteModelTest.note
-        verbose = note._meta.get_field("added").verbose_name
-        self.assertEqual(verbose, "Date added")
+        field_verboses = {"heading": "Heading", "text": "Text", "added": "Date added"}
+        for field, expected_value in field_verboses.items():
+            with self.subTest(field=field):
+                self.assertEqual(
+                    note._meta.get_field(field).verbose_name, expected_value
+                )
 
     def test_object_name_is_heading(self):
         note = NoteModelTest.note
