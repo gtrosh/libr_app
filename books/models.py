@@ -48,23 +48,27 @@ class Note(models.Model):
 
     class Meta:
         ordering = ["-added", "book"]
-        verbose_name = "Заметка"
-        verbose_name_plural = "Заметки"
+        verbose_name = "Note"
+        verbose_name_plural = "Notes"
 
 
 class Collection(models.Model):
-    books = models.ManyToManyField(Book)
+    books = models.ManyToManyField(Book, verbose_name="Book")
     owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="collections", null=True
+        User,
+        on_delete=models.CASCADE,
+        related_name="collections",
+        null=True,
+        verbose_name="Owner",
     )
 
     def get_books(self):
-        return ", ".join([b.title for b in self.books.all()])
+        return ", ".join([b.title for b in self.books.all().order_by("title")])
 
     def __str__(self):
         return f"{self.owner}'s collection"
 
     class Meta:
         ordering = ["owner"]
-        verbose_name = "Коллекция"
-        verbose_name_plural = "Коллекции"
+        verbose_name = "Collection"
+        verbose_name_plural = "Collections"
